@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <script src='https://cdn.bootcss.com/vue/2.4.0/vue.js'> </script>
+    <script src='https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js'></script>
+    <script src='https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js'></script>
+    <script src='https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js'></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.4.2/theme-default/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://cdn.bootcss.com/element-ui/1.4.2/index.js"></script>
+    <script src='https://cdn.bootcss.com/lodash.js/4.17.1/lodash.min.js'></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/showdetail.css">
+</head>
+<body>
+    <header class="navbar navbar-static-top custom-nav ">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="router.html" class="navbar-brand">Boot&Vue</a>
+            </div>
+            <nav class="collapse navbar-collapse">
+                <ul class='nav navbar-nav'>
+                    <li><a href="./router.html">列表</a></li>
+                    <li><a href='./confirm.html'>确认页</a></li>
+                    <li><a href='./modified.html'>修改页</a></li>
+                    <li><a href='./showdetail.html'>展示页1</a></li>
+                    <li><a href='./workflow.html'>展示页2</a></li>
+                    <li><a href='./cart.html'>购物车</a></li> 
+                    <li><a href="./form.html">表单页</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">官网</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <header id='app2'>
+         <el-carousel indicator-position="outside">
+            <el-carousel-item v-for="(item,index) in imgList" :key="item">
+                <!-- <h3>{{ item }}</h3> -->
+                <img :src="srcUrl[index]" alt="">
+            </el-carousel-item>
+        </el-carousel>
+    </header>
+
+    <!-- <div class="jumbotron cus-jumb">
+        <div class="container">
+             <h1>V&B</h1>
+             <blockquote>
+             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+             <footer class="text-uppercase"><strong>Someone famous</strong> <em>in</em> <cite title="Source Title">Source Title</cite></footer>
+             </blockquote>
+        </div>
+    </div>  -->
+    
+
+     <div class="container">
+        <section class='row' id="app">
+           
+          
+            <el-row>
+                <el-col :span="4" v-for="(o, index ) in zipdata" :key="o" :offset="index > 0 ? 1 : 0">
+                    <el-card :body-style="{ padding: '0px' }">
+                    <!-- <img src="./img/Chrysanthemum.jpg" class="image"> -->
+                    <img :src="methodGetUrl(o)" class="image">
+                    <div style="padding: 14px;">
+                        <span>{{o[0]}}</span>
+                        <div class="bottom clearfix">
+                            <time class="time">{{ currentDate }}</time>
+                            <el-button type="text" class="button">操作按钮</el-button>
+                        </div>
+                    </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+
+        </section>
+      
+    </div>
+<script>
+
+    //data数据
+    const data1 = {
+        currentDate: new Date(),
+        list:{
+            littleimgList:['Chrysanthemum',"Desert",'Hydrangeas'
+                    ,'Jellyfish','Koala','Lighthouse','Penguins','Tulips'],
+            titleList:['Chrysanthemum111',"Desert",'Hydrangeas'
+                    ,'Jellyfish','Koala','Lighthouse','Penguins','Tulips']
+        }
+    }
+    const data2 = {
+        imgList:['banner1','banner2'],
+       
+    }
+
+    const zipdata = _.zip(data1.list.littleimgList,data1.list.titleList);
+
+    //computed属性
+    const computedData2 = {
+        srcUrl:function(){
+            return this.imgList.map((i)=>'./img/'+i+'.jpg')
+        }
+    }
+     const computedData1 = {
+        littleimgListUrl:function(){
+            return this.list.littleimgList.map((i)=>'./img/'+i+'.jpg')
+        }
+     }
+    
+    //实例
+    const app = new Vue({    
+        data:function(){
+            return {
+               zipdata,
+               currentDate:data1['currentDate']
+            }
+        },
+        methods: {
+            methodGetUrl(val){
+                return './img/'+val[0]+".jpg"
+            },
+            onSubmit() {
+                // console.log('card!   ');
+            }
+        },
+        computed:computedData1
+    }).$mount('#app');   
+
+    const app2 = new Vue({
+        data:data2,
+        computed:computedData2
+    }).$mount("#app2")
+</script>
+</body>
+</html>

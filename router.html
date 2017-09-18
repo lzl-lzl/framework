@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='https://cdn.bootcss.com/vue/2.4.0/vue.js'> </script>
+    <script src='https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js'></script>
+    <script src='https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js'></script>
+    <script src='https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js'></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.4.2/theme-default/index.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src='./semantic.min.js'></script>
+    <!-- <script src='./jquerySo.js'> </script> -->
+    <link rel="stylesheet" href="./css/semantic.min.css">
+    
+    <title>Document</title>
+    <style>
+        .list-group-item+ul{
+            padding: 0;
+            margin:0;
+            border:none;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-static-top custom-nav ">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Vue&cssUI</a>
+            </div>
+            <nav class="collapse navbar-collapse">
+                <ul class='nav navbar-nav'>
+                   <li><a href="./router.html">列表</a></li>
+                    <li><a href='./confirm.html'>确认页</a></li>
+                    <li><a href='./modified.html'>修改页</a></li>
+                    <li><a href='./showdetail.html'>展示页</a></li>
+                    <li><a href='./cart.html'>购物车</a></li>
+                    <li><a href="./form.html">表单页</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">官网</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="jumbotron cus-jumb">
+        <div class="container">
+             <h1>V&B</h1>
+             <blockquote>
+             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+             <footer class="text-uppercase"><strong>Someone famous</strong> <em>in</em> <cite title="Source Title">Source Title</cite></footer>
+             </blockquote>
+        </div>
+    </div>
+    <div class="container">
+        <section class='row'>
+            <div id="app">
+               <div class="col-xs-3">
+                   
+                    <ul class="list-group">
+                        <router-link class="list-group-item" to="/">Go to Home</router-link>            
+                        <router-link class="list-group-item" to="/bootstrap">Bootstrap</router-link>
+                        <router-link class="list-group-item" to="/element-boot">Element基础斑马线</router-link>   
+                        <!-- <router-link class="list-group-item" to="/sansa">Go to Sansa</router-link>  -->
+                        <div class="dropdown">
+                            <a class="list-group-item" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Element扩展
+                                <span class="caret"></span>
+                                <span class="badge">2</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                                <router-link class="list-group-item" to="/sansa/a">Sansa Element 1</router-link>   
+                                <router-link class="list-group-item" to="/sansa/ss">Sansa Element 2</router-link>   
+                            </ul>  
+                        </div>
+                        
+                        <router-link class="list-group-item" to="/home/child/semantic">semantic折叠列表</router-link>   
+                        <router-link class="list-group-item" to="/home/child/post">自己made</router-link>   
+                        <router-link class="list-group-item disabled" to="/home/child/post">disabled</router-link>   
+                    </ul>
+               </div>
+               <div class="col-xs-9">
+                   <!-- <div class="panel panel-default">
+                        <div class="panel-body">
+                             <h5>{{$route.params}}</h5>
+                        </div>
+                    </div> -->
+                    <div class="bg-info">
+                        <ol class="breadcrumb">
+                        <!-- {{breadTimes}} -->
+                        <!-- <li v-if="time >= 25" v-for='time in breadTimes'>{{time}}</li> -->
+                        <!-- <li v-if='breadTimes.length'><a href="#" >{{breadTimes[1]}}</a></li> --> 
+                            <li v-if="time" v-for='time in breadTimes'><a href='#'>{{time}}</a></li>
+                            <li v-else><a href="#">主页</a></li>
+                        </ol>
+                    </div>
+                    <hr>
+                    <!-- <pre>{{JSON.stringify($route)}}</pre> -->
+                    <router-view class='view one'></router-view>
+                    <router-view class="view two"   name="a"></router-view>
+                    <router-view class="view three" name="b"></router-view>
+               </div>
+            </div>
+        </section>
+      
+    </div>
+
+    <template id="Bar">  
+        <div>
+            <p>主页</p>  
+            <div>命名视图 1.1 {{$route.params.id}}</div>
+       </div>
+    </template>  
+        
+    <template id="element-boot">
+        <el-table :data="tableData" stripe style="width: 100%">
+            <el-table-column  prop="date" label="日期" width="180"> </el-table-column>
+            <el-table-column  prop="name"  label="姓名"  width="180"> </el-table-column>
+            <el-table-column  prop="address"  label="地址">  </el-table-column>
+        </el-table>
+    </template>
+    
+
+    <template id="bootstrap">
+        <div>
+            <div class="col-xs-2">
+                <select multiple class="form-control" @click='selectStyle' >
+                    <option >基本</option>
+                    <option >条纹状</option>
+                    <option >带边框</option>
+                    <option >鼠标悬停</option>
+                    <option >紧缩形</option>
+                </select>
+                <hr>
+                <div class="btn-group btn-group-sm">
+                    <a class="btn btn-default btn-info" href="javascript:void(0)" @click='controlColor=true'>colored</a>
+                    <a class="btn btn-default" href="javascript:void(0)" @click='controlColor=false'>white</a>
+                </div>
+               
+            </div>
+           <div class="col-xs-9">
+                <table class='table' :class="classObject">
+                    <tr><th>日期</th><th>姓名</th><th>地址</th></tr>
+                    <tr v-for='(time,index) in PorpsData' :class="{'info':controlColor&&index%2!= 1}">
+                    <!-- <tr v-for='time in PorpsData' :class="comthClass"> -->
+                    <!-- <li class="list-item" v-for="(item,index) in data" :class="{'active':index%2 != 1}">{{data[index].name}}</li>  -->
+                        <td v-for='ele in time'>{{ele}}</td>
+                    </tr>
+                </table>
+           </div>
+        </div>
+    </template>
+
+    <template id='semantic'>
+        <div class='wrapper'>
+            <div class="col-xs-10">
+                <div class="ui accordion" :class="{ 'inverted segment' : !invert ,'styled':invert}">
+                    <template v-for="(ele,index) in PorpsData">
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            {{ele.title}}
+                        </div>
+                        <div class="content">
+                            <p class="transition hidden" v-for="e in ele.content">{{e}}</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="inline field">
+                    <div class="ui toggle checkbox btn-group-sm">
+                        <input type="checkbox" tabindex="0" class="hidden" v-model='invert' @change='invert=!invert'>
+                        <label>change</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- <template id='semantic'>
+        <div class="ui styled accordion">
+            <div class="title"><i class="dropdown icon"></i> What is a dog? </div>
+            <div class="content">
+                <p class="transition hidden">狗算是一种家畜。以其忠诚与忠心广受人类欢迎, 可以在世界各地的许多家庭里发现这个受欢迎的客人。</p>
+            </div>
+            <div class="title"><i class="dropdown icon"></i> What kinds of dogs are there? </div>
+            <div class="content">
+                <p class="transition hidden">狗有许多品种，每个品种都有不同的大小及性格，饲主通常选择适合自己生活方式的品种当作自已的伙伴，其中最受欢迎的品种绝对是吉娃娃。</p>
+            </div>
+            <div class="title"><i class="dropdown icon"></i> How do you acquire a dog? </div>
+            <div class="content">
+                <p class="transition hidden">通常有三种方式可以取得一只狗狗，宠物店、私人饲主或是动物之家。 (请以领养代替购买)</p>
+                <p class="transition hidden">你可以在动物之家内领养一只健康的小狗，比起在宠物店买，收容所中的宠物比较不容易有近亲交配出现的缺陷问题，而且领养一只小狗的费用远比你在宠物店中购买便宜得多。</p>
+            </div>
+        </div>
+    </template> -->
+
+    <script src='https://cdn.bootcss.com/element-ui/1.4.2/index.js'></script>
+    <script src='./index.js'></script>
+    
+</body>
+</html>

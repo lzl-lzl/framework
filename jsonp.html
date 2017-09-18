@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <script src='https://cdn.bootcss.com/vue/2.4.0/vue.js'> </script>
+    <script src='https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js'></script>
+    <script src='https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js'></script>
+    <script src='https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js'></script>
+    <script src='https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js'></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.4.2/theme-default/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://cdn.bootcss.com/element-ui/1.4.2/index.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        section{
+            margin-top:40px;
+        }
+        .item {
+            margin-top: 10px;
+            margin-right: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-static-top custom-nav ">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="router.html" class="navbar-brand">Boot&Vue</a>
+            </div>
+            <nav class="collapse navbar-collapse">
+                <ul class='nav navbar-nav'>
+                     <li><a href="./router.html">列表</a></li>
+                    <li><a href='./confirm.html'>确认页</a></li>
+                    <li><a href='./modified.html'>修改页</a></li>
+                    <li><a href='./showdetail.html'>展示页1</a></li>
+                    <li><a href='./workflow.html'>展示页2</a></li>
+                    <li><a href='./cart.html'>购物车</a></li>
+                    <li><a href="./form.html">表单页</a></li>
+                    <li><a href="./jsonp.html">流程页</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">官网</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="jumbotron cus-jumb">
+        <div class="container">
+             <h1>V&B</h1>
+             <blockquote>
+             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+             <footer class="text-uppercase"><strong>Someone famous</strong> <em>in</em> <cite title="Source Title">Source Title</cite></footer>
+             </blockquote>
+        </div>
+    </div>
+
+     <div class="container">
+        <section class='row' id="app"> 
+             <!-- direction='vertical'  is-vertical -->
+               <div class="col-sm-3">
+                    <el-steps :space="100" :active="active"  finish-status="success" ref='stepped'>
+                        <el-step title="步骤 1"></el-step>
+                        <el-step title="步骤 2"></el-step>
+                        <el-step title="步骤 3"></el-step>
+                    </el-steps>    
+                    <el-button style="margin-top: 12px;" @click="prev">上一步</el-button>       
+                    <el-button style="margin-top: 12px;" @click="next">下一步</el-button>                     
+               </div>
+                
+                <div class="col-sm-3">
+                    <el-progress :percentage="70"></el-progress>
+                    <el-progress :percentage="errorPer" status="success"></el-progress>
+                    <el-progress :percentage="50" status="exception"></el-progress>
+                </div>
+                <div class="col-sm-3">
+
+                    <el-progress :text-inside="true" :stroke-width="18" :percentage="errorPer"></el-progress>
+                    
+                    
+                    <el-switch
+                        v-model="value1"
+                        on-text=""
+                        off-text="">
+                    </el-switch>
+                    <el-switch
+                        v-model="value2"
+                        on-color="#13ce66"
+                        off-color="#ff4949">
+                    </el-switch>
+                </div>
+                <div class="col-sm-3">
+                    <el-progress type="circle" :percentage="errorPer" status="exception" @click='addmore'></el-progress>                        
+                </div>
+        </section>  
+        <section id='app2'>
+            <div class="block">
+                <!-- <span class="demonstration">默认 click 触发子菜单</span> -->
+                <div class="col-sm-3">
+                    <el-row class="demo-autocomplete">
+                        <el-col :span="12">
+                            <!-- <div class="sub-title">激活即列出输入建议</div> -->
+                            <el-autocomplete
+                            class="inline-input"
+                            v-model="state1"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                            @select="handleSelect"
+                            lazy
+                            ></el-autocomplete>
+                        </el-col>
+                        <!-- <el-col :span="12">
+                            <div class="sub-title">输入后匹配输入建议</div>
+                            <el-autocomplete
+                            class="inline-input"
+                            v-model="state2"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                            @select="handleSelect"
+                            ></el-autocomplete>
+                        </el-col> -->
+                    </el-row>
+                </div>
+                  
+                <el-cascader
+                    :options="options"
+                    v-model="selectedOptions"
+                    @change="handleChange"
+                    ref="casca">
+                </el-cascader>
+
+                <div class="col-sm-3">
+                     <!-- <i class="el-icon-edit"></i> 
+                         :max="99" 
+                        -->
+                    <el-badge :value="valueOfLabel" class="item">
+                        <el-button size="small" v-text='showValue'></el-button>
+                    </el-badge>
+                    <!-- <el-input v-model="input" placeholder="请输入内容">
+                    </el-input> -->
+                </div>
+
+            </div>
+            <!-- <div class="block">
+                <span class="demonstration">hover 触发子菜单</span>
+                <el-cascader
+                    expand-trigger="hover"
+                    :options="options"
+                    v-model="selectedOptions2"
+                    @change="handleChange">
+                </el-cascader>  
+            </div> -->
+
+            <section id='loading'>
+                <el-button
+                    type="primary"
+                    @click="openFullScreen"
+                    v-loading.fullscreen.lock="fullscreenLoading">
+                    显示整页加载，1 秒后消失
+                </el-button>   
+            </section>
+
+        </section>
+    </div>
+    <script src='./js/getJsonp.js'></script>
+<script>
+    const app = new Vue({    
+        data() {
+            return {
+                errorPer:60,
+                active: 0,
+                spinned:true,
+                value1: true,
+                value2: true
+            };
+        },
+        // computed:{
+        //     errorPerCom:function(){
+        //         return this.errorPer+1;
+        //     }
+        // },
+        watch:{
+            errorPer:function(){
+                if(this.errorPer>=100){
+                    // console.log(this.errorPer);
+                    clearInterval(cleartime);
+                    delayGetInfo();
+                }
+            }
+            
+        },
+        mounted(){
+            
+            window.cleartime = setInterval(function() {
+                // console.log('asd');
+                this.errorPer+=10;
+                this.active++;
+            }.bind(this), 300);
+
+        },
+        methods:{
+            addmore(){
+                this.errorPer+=30;
+            },
+            spin(){
+                this.spinned = !this.spinned
+                if(this.spinned){
+                    // this.$refs.stepped.$el.setAttribute('direction','vertical');
+                    this.$refs.stepped.$el.setAttribute('direction','vertical');
+                }else{
+                    this.$refs.stepped.$el.removeAttribute('direction');
+                }
+            },
+            prev(){
+                if (this.active-- <= 0) this.active = 0;
+            },
+            next() {
+                if (this.active++ > 2) this.active = 0;
+            }
+        }
+    }).$mount('#app');   
+</script>
+</body>
+</html>

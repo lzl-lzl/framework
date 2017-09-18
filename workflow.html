@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <script src='https://cdn.bootcss.com/vue/2.4.0/vue.js'> </script>
+    <script src='https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js'></script>
+    <script src='https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js'></script>
+    <script src='https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js'></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.4.2/theme-default/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://cdn.bootcss.com/element-ui/1.4.2/index.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .transfer-footer {
+            margin-left: 20px;
+            padding: 6px 5px;
+        }
+    </style> 
+
+</head>
+<body>
+    <header class="navbar navbar-static-top custom-nav ">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="router.html" class="navbar-brand">Boot&Vue</a>
+            </div>
+            <nav class="collapse navbar-collapse">
+                <ul class='nav navbar-nav'>
+                     <li><a href="./router.html">列表</a></li>
+                    <li><a href='./confirm.html'>确认页</a></li>
+                    <li><a href='./modified.html'>修改页</a></li>
+                    <li><a href='./showdetail.html'>展示页1</a></li>
+                    <li><a href='./workflow.html'>展示页2</a></li>
+                    <li><a href='./cart.html'>购物车</a></li>
+                    <li><a href="./form.html">表单页</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">官网</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="jumbotron cus-jumb">
+        <div class="container">
+             <h1>V&B</h1>
+             <blockquote>
+             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+             <footer class="text-uppercase"><strong>Someone famous</strong> <em>in</em> <cite title="Source Title">Source Title</cite></footer>
+             </blockquote>
+        </div>
+    </div>
+
+     <div class="container">
+        <section class='row' id="app">
+            <div class="col-sm-3">
+                    <div class="block">
+                            <span class="demonstration">默认不区分颜色</span>
+                            <el-rate v-model="value1"></el-rate>
+                    </div>
+                    <div class="block">
+                        <span class="demonstration">区分颜色</span>
+                        <el-rate
+                            v-model="value2"
+                            :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                        </el-rate>
+                    </div>
+            </div>
+            <div class="col-sm-3">
+                <el-tooltip placement="top">
+                        <div slot="content">多行信息<br/>第二行信息</div>
+                        <el-button>Top center</el-button>
+                </el-tooltip>
+            </div>
+            <div class="col-sm-6">
+                <div id='el-tag'>
+                    <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        :closable="true"
+                        :close-transition="false"
+                        @close="handleClose(tag)"
+                      >
+                      {{tag}}
+                    </el-tag>
+                    <el-input
+                        class="input-new-tag"
+                        v-if="inputVisible"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="mini"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                    >
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+                </div>
+            </div>
+        </section>
+        <hr>
+<!--el-transfer  :render-content="renderFunc" -->
+        <section id='app2'>
+            <div class="col-sm-6">
+                <el-transfer  v-model="value3"
+                        filterable
+                    :left-default-checked="[2, 3]"
+                    :right-default-checked="[1]"
+                   
+                    :titles="['Source', 'Target']"
+                    :button-texts="['到左边', '到右边']"
+                    :footer-format="{
+                        noChecked: '${total}',
+                        hasChecked: '${checked}/${total}'
+                    }"
+                    @change="handleChange"
+                    :data="data">
+
+                    <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
+                    <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
+                </el-transfer>
+            </div>
+            <div class="col-sm-6">
+                <el-upload
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList2"
+                    list-type="picture">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+            </div>
+        </section>
+    </div>
+<script id='appTag-1'>
+    const dataTag = {
+        dynamicTags: ['标签一', '标签二', '标签三'],
+        inputVisible: false,
+        inputValue: ''
+    }
+    var data = {
+            value1: null,
+            value2: null,
+
+            dynamicTags: ['标签一', '标签二', '标签三'],
+            inputVisible: false,
+            inputValue: '',
+    }
+    var methodTag = {
+        methods: {
+            handleClose(tag) {
+            this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        },
+
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(_ => {
+                this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
+
+        handleInputConfirm() {
+            let inputValue = this.inputValue;
+            if (inputValue) {
+                this.dynamicTags.push(inputValue);
+            }
+            this.inputVisible = false;
+            this.inputValue = '';
+            }
+        },
+    }
+    const app = new Vue({    
+        data,
+        methods:  methodTag['methods']
+    }).$mount('#app');   
+</script>
+
+<!-- <script id="appTransfer-2"> -->
+<script>
+
+    var uploadMethod = {
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        }
+    }
+
+    const generateData = _ => {
+        const data = [];
+        for (let i = 1; i <= 15; i++) {
+          data.push({
+            key: i,
+            label: `备选项 ${ i }`,
+            disabled: i % 4 === 0
+          });
+        }
+        return data;
+      }
+
+    // function renderFunc(h, option) {
+    //     return <span>{ option.key } - { option.label }</span>;
+    // }
+
+    const transfer = new Vue({
+        data(){
+            return {
+                data: generateData(),
+                value3: [1],
+
+                
+            fileList2: [
+                {
+                    name: 'food.jpeg', 
+                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+                }, 
+                {
+                    name: 'food2.jpeg',
+                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+                }
+            ]
+                // renderFunc(h, option) {
+                //     // return <span>{ option.key } - { option.label }</span>;
+                //     return  `<span>${option.key} - ${option.label} </span>` ;
+                // }
+            }
+        },
+        methods: {
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleChange(value, direction, movedKeys) {
+                console.log(value, direction, movedKeys);
+            }
+        }
+    }).$mount('#app2');
+
+</script>
+
+<script src='./js/getJsonp.js'></script>
+</body>
+</html>
